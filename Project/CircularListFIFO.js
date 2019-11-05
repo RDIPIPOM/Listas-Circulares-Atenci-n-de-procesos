@@ -1,4 +1,4 @@
-export default class FIFO {
+export default class CircularListFIFO {
     constructor() {
         this._start = null;
         this._size = 0;
@@ -14,8 +14,10 @@ export default class FIFO {
             while (aux.next != null)
                 aux = aux.next;
             aux.next = node;
-        } else
+        } else{
             this._start = node;
+            this._start.next = this._start;
+        }
 
         this._size++;
     }
