@@ -9,7 +9,7 @@ document.querySelector('#btnStart').addEventListener('click', () => {
 
     for (let i = 1; i <= 300; i++) {
         if(dice100.roll() <= 39)
-            processor1.add(new Process(i, dice11.roll() + 3));
+            processor1.add(new Process(dice11.roll() + 3));
         processor1.nextStep();
         console.log('Cycle ' + i + '\n' + processor1.report());
     }
@@ -18,5 +18,6 @@ document.querySelector('#btnStart').addEventListener('click', () => {
     console.log('Number of cycles free: ' + processor1.counterTimeFree);
     console.log('Number maximum of processes hoping: ' + processor1.countMaxProcessHoping);
     console.log('Number of processes hoping: ' + processor1.countProcessHoping);
+    console.log('Total of cycles requiered to finish: ' + processor1.totalCyclesRequired);
     console.log('Number of processes done: ' + processor1.countProcessesDone);
 });

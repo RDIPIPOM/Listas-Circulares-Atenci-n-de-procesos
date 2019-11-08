@@ -1,5 +1,5 @@
 export default class Process{
-    constructor(code, timeRequired){
+    constructor(timeRequired){
         this._timeRequired = timeRequired;
         this._next = null;
     }

@@ -7,21 +7,27 @@ export default class Processor {
         this._countProcessHoping = 0;
         this._countMaxProcessHoping = 0;
         this._countProcessesDone = 0;
+        this._totalCyclesRequired = 0;
     }
 
-    get counterTimeFree(){
+    get counterTimeFree() {
         return this._counterTimeFree;
     }
 
-    get countProcessHoping(){
+    get countProcessHoping() {
         return this._countProcessHoping;
     }
 
-    get countMaxProcessHoping(){
+    get totalCyclesRequired() {
+        this._totalCyclesRequired = this._CircularListFIFO.totalTimeRequired();
+        return this._totalCyclesRequired;
+    }
+
+    get countMaxProcessHoping() {
         return this._countMaxProcessHoping;
     }
 
-    get countProcessesDone(){
+    get countProcessesDone() {
         return this._countProcessesDone;
     }
 
@@ -31,21 +37,22 @@ export default class Processor {
 
     nextStep() {
         //Do process
-        if (this._CircularListFIFO.peek() != null) {
-            this._CircularListFIFO.peek().timeRequired--;
-            if (this._CircularListFIFO.peek().timeRequired === 0){
-                this._CircularListFIFO.pop();
+        if (this._CircularListFIFO.inTurn != null) {
+            this._CircularListFIFO.inTurn.timeRequired--;
+            if (this._CircularListFIFO.inTurn.timeRequired === 0) {
+                this._CircularListFIFO.deleteInTurn();
                 this._countProcessesDone++;
             }
+            else
+                this._CircularListFIFO.nextNode();
         } else
             this._counterTimeFree++;
-        //Update process hoping
-        this._countProcessHoping = this._CircularListFIFO.size;
 
-        //Are there more process hoping than last time?
-        if(this._CircularListFIFO.size > this._countMaxProcessHoping){
+        //Maximum number of processes hoping
+        if (this._countMaxProcessHoping < this._CircularListFIFO.size)
             this._countMaxProcessHoping = this._CircularListFIFO.size;
-        }
+        //update number of processes hoping
+        this._countProcessHoping = this._CircularListFIFO.size;
     }
 
     report() {
